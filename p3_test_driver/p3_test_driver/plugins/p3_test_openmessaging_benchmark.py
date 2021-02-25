@@ -338,6 +338,7 @@ class OpenMessagingBenchmarkSSHTest(BaseTest):
             'cd /opt/benchmark' +
             ' && sudo chmod go+rw .' +
             ' && dd if=/dev/urandom of=' + payload_file_name + ' bs=' + str(workload['messageSize']) + ' count=1 status=none' +
+            ' && export pravega_client_auth_method=Bearer && export pravega_client_auth_loadDynamic=true && export KEYCLOAK_SERVICE_ACCOUNT_FILE=/home/ubuntu/keycloak.json'+
             ' && bin/benchmark --drivers ' + driver_file_name + ' ' + workers_args + ' ' + workload_file_name
         )
         rec['_status_node'].set_status('Running command: %s' % str(cmd))

@@ -10,8 +10,8 @@ def add_test():
         'name': 'Pravega',
         'driverClass': 'io.openmessaging.benchmark.driver.pravega.PravegaBenchmarkDriver',
         'client': {
-            'controllerURI': 'tcp://localhost:9090',
-            'scopeName': 'examples',
+            'controllerURI': 'tls://pravega-controller.sdp.sdp-demo.org:443',
+            'scopeName': 'demo',
         },
         'writer': {
             'enableConnectionPooling': False,
@@ -19,6 +19,7 @@ def add_test():
             'eventPerTransaction': 1,
         },
         'includeTimestampInEvent': includeTimestampInEvent,
+        'createScope': False,
     }
     workload = {
         'messageSize': messageSize,
@@ -48,9 +49,10 @@ def add_test():
 
 test_list = []
 
-localWorker = False
+localWorker = True
 tarball = 'package/target/openmessaging-benchmark-0.0.1-SNAPSHOT-bin.tar.gz'
 build = False
+"""
 
 # Message size 100 B
 for repeat in range(1):
@@ -102,13 +104,14 @@ for repeat in range(1):
                                         for consumerPerSubscription in [partitionsPerTopic]:
                                             for includeTimestampInEvent in [True]:
                                                 add_test()
+"""
 
 # Message size 100 B, 50,000 events/sec
 for repeat in range(1):
     for producerWorkers in [2]:
         numWorkers = 0 if localWorker else producerWorkers*2
         for testDurationMinutes in [15]:
-            for messageSize in [100]:
+            for messageSize in [1000]:
                 for producerRateEventsPerSec in [5e4]:
                     for topics in [1]:
                         for partitionsPerTopic in [16, 6, 1]:
